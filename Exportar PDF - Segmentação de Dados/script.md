@@ -34,10 +34,30 @@ Set Lojas = ThisWorkbook.SlicerCaches("SegmentaçãodeDados_Lojas")
             Filename:=ThisWorkbook.Path & "\" & "Rede " & Rede1.Name & ".pdf", _
             Quality:=xlQualityStandard, IncludeDocProperties:=True, _
             IgnorePrintAreas:=False, OpenAfterPublish:=False
+            
+    For Each Lojas1 In Lojas.SlicerItems
+        Lojas.ClearAllFilters
+        For Each Lojas2 In Lojas.SlicerItems
+            If Lojas1.Name <> Lojas2.Name Then
+                Lojas2.Selected = False
+            
+            End If
+            
+        Next
+        
+        ActiveSheet.ExportAsFixedFormat Type:=xlTypePDF, _
+            Filename:=ThisWorkbook.Path & "\" & Lojas1.Name & " - " & Rede1.Name & ".pdf", _
+            Quality:=xlQualityStandard, IncludeDocProperties:=True, _
+            IgnorePrintAreas:=False, OpenAfterPublish:=False
+        
+    Next Lojas1
+    
 
 Next Rede1
 
     Rede.ClearAllFilters
+    Lojas.ClearAllFilters
+    Application.ScreenUpdating = True
     MsgBox ("Ok!")
     
 End Sub
